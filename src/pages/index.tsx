@@ -1,8 +1,17 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { Splash } from "./splash";
 
 const Home: NextPage = () => {
+  // Authenticate Session, otherwise render sign in link (currently DISCORD OAUTH)
+  const { data: session } = useSession();
+  if (!session) {
+    // Handle unauthenticated state, e.g. render a SignIn component
+    return <Splash />;
+  }
+
   return (
     <>
       <Head>
@@ -36,6 +45,16 @@ const Home: NextPage = () => {
               <div className="text-lg">
                 Learn more about Create T3 App, the libraries it uses, and how
                 to deploy it.
+              </div>
+            </Link>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href="./api/auth/signout"
+              target="_blank"
+            >
+              <h3 className="text-2xl font-bold">Log out →</h3>
+              <div className="text-lg">
+                Log out from this application!
               </div>
             </Link>
           </div>
