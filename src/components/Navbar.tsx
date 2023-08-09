@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { useSession } from 'next-auth/react';
 
-
-
 const Navbar = () => {
     const { data: session } = useSession();
     if (session) {
