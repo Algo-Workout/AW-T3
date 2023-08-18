@@ -2,8 +2,18 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter"
+import GitHubAuthCheck from "../components/GitHubAuthCheck";
+import { useSession } from "next-auth/react";
 
 export const Login: NextPage = () => {
+  const { data: session } = useSession();
+
+  const handleOAuthButtonClick = () => {
+    // redirect the user to the OAuth authorization URL
+    window.location.href = "";
+  };
+
+
   return (
     <>
       <Head>
@@ -20,8 +30,19 @@ export const Login: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">Sign in →</h3>
               <div className="text-lg">
-                Sign into this application with Discord OAuth2!
+                Sign into this application with OAuth2!
               </div>
+            </Link>
+          </div>
+
+          <div>
+            <h2 className="text-white">Test area</h2>
+            <GitHubAuthCheck session={session}/>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href={`https://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent("https://localhost:3000")}&response_type=code&scope=user:email`}
+            >
+              Testing Github
             </Link>
           </div>
       </main>

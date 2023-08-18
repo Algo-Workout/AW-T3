@@ -23,13 +23,13 @@ const Navbar = () => {
         )
     } else {
         return (
-            <nav className="flex items-center center">
-                <div className="flex items-center">
+            <nav className="flex justify-between">
+                <div className="ml-3 p-2">
                     <span>
                         AlgoWorkout
                     </span>
                 </div>
-                <div>
+                <div className="mr-3 p-2">
                     <Link
                         className=""
                         href="https://discord.com/api/oauth2/authorize?client_id=1092281094591750175&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fauth%2Fcallback%2Fdiscord&response_type=code&scope=identify%20email"
