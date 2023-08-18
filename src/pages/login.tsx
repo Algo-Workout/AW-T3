@@ -8,12 +8,6 @@ import { useSession } from "next-auth/react";
 export const Login: NextPage = () => {
   const { data: session } = useSession();
 
-  const handleOAuthButtonClick = () => {
-    // redirect the user to the OAuth authorization URL
-    window.location.href = "";
-  };
-
-
   return (
     <>
       <Head>
@@ -40,7 +34,7 @@ export const Login: NextPage = () => {
             <GitHubAuthCheck session={session}/>
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href={`https://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent("https://localhost:3000")}&response_type=code&scope=user:email`}
+              href={`http://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent("https://localhost:3000/api/auth/github")}&response_type=code&scope=user:email`}
             >
               Testing Github
             </Link>
