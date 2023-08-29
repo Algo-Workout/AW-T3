@@ -15,6 +15,10 @@ interface AccessTokenResponse {
   userData: string;
 }
 
+interface GithubRequestBody {
+  code: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -23,18 +27,22 @@ export default async function handler(
     const authURL = `https://github.com/login/oauth/authorize?scope=user:email&client_id=${CLIENT_ID}`;
     res.redirect(authURL);
   } else if (req.method === "POST") {
-    const { code } = req.query;
+    const { code } = req.body as GithubRequestBody;
 
     try {
       // Exchange the authorization code for an access token
       const response = await axios.post<AccessTokenResponse>(
         "https://github.com/login/oauth/access_token",
+        null,
         {
-          client_id: CLIENT_ID,
-          client_secret: CLIENT_SECRET,
-          code,
+          params: {
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            code,
+            redirect_uri: 'http://localhost:3000/api/auth/callback/github'
+          },
+          headers: { Accept: "application/json" }
         },
-        { headers: { Accept: "application/json" } }
       );
       
       // Access the access_token property safely

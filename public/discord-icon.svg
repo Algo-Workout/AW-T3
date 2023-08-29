@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 127.14 96.36" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<clipPath id="ArtboardFrame">
+<rect height="96.36" width="127.14" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="图层-2" vectornator:layerName="图层 2">
+<path d="M107.7 8.07C99.3468 4.24568 90.5283 1.53258 81.47 0C80.2305 2.21588 79.1089 4.49573 78.11 6.83C68.4611 5.37602 58.6489 5.37602 49 6.83C48.0006 4.49597 46.879 2.21615 45.64 0C36.5759 1.54552 27.7516 4.26506 19.39 8.09C2.79 32.65-1.71 56.6 0.54 80.21L0.54 80.21C10.2614 87.3926 21.1424 92.8551 32.71 96.36C35.3147 92.8568 37.6195 89.1403 39.6 85.25C35.8383 83.8451 32.2077 82.1117 28.75 80.07C29.66 79.41 30.55 78.73 31.41 78.07C51.78 87.6495 75.36 87.6495 95.73 78.07C96.6 78.78 97.49 79.46 98.39 80.07C94.9257 82.115 91.2883 83.8517 87.52 85.26C89.4981 89.1485 91.803 92.8619 94.41 96.36C105.988 92.8691 116.877 87.4092 126.6 80.22L126.6 80.22C129.24 52.84 122.09 29.11 107.7 8.07ZM42.45 65.69C36.18 65.69 31 60 31 53C31 46 36 40.26 42.43 40.26C48.86 40.26 54 46 53.89 53C53.78 60 48.84 65.69 42.45 65.69ZM84.69 65.69C78.41 65.69 73.25 60 73.25 53C73.25 46 78.25 40.26 84.69 40.26C91.13 40.26 96.23 46 96.12 53C96.01 60 91.08 65.69 84.69 65.69Z" fill="#5865f2" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="path"/>
+</g>
+</svg>

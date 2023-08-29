@@ -8,7 +8,8 @@ import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
-import type { GitHubUserData } from "~/types/github";
+import type { DefaultSession } from 'next-auth';
+import type { GitHubUserData } from '~/types/github';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -16,20 +17,20 @@ import type { GitHubUserData } from "~/types/github";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-// declare module "next-auth" {
-//   interface Session extends DefaultSession {
-//     user: {
-//       id: string;
-//       // ...other properties
-//       // role: UserRole;
-//     } & DefaultSession["user"];
-//   }
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: {
+      id: string;
+      // ...other properties
+      // role: UserRole;
+    } & DefaultSession["user"];
+  }
 
-//   // interface User {
-//   //   // ...other properties
-//   //   // role: UserRole;
-//   // }
-// }
+  // interface User {
+  //   // ...other properties
+  //   // role: UserRole;
+  // }
+}
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -55,6 +56,7 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: env.GITHUB_CLIENT_ID,
       clientSecret: env.GITHUB_CLIENT_SECRET,
+      checks: ['none']
     }),
     /**
      * ...add more providers here.
@@ -76,16 +78,7 @@ export const authOptions: NextAuthOptions = {
 export const getServerAuthSession = async (ctx: {
   req: GetServerSidePropsContext["req"];
   res: GetServerSidePropsContext["res"];
-  userData?: GitHubUserData; 
+  userData?: GitHubUserData;
 }) => {
-  const session = await getServerSession(ctx.req, ctx.res, authOptions);
-  
-  if (ctx.userData && session?.user) {
-    // Assign user data to the session if available
-    session.user = {
-      ...session?.user,
-      githubUserData: ctx.userData,
-    }
-  }
-  return session;
+  return getServerSession(ctx.req, ctx.res, authOptions);
 };

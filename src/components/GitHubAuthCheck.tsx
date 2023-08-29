@@ -58,7 +58,7 @@ const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
   const { data: sessionData } = useSession();
 
   if (!session) {
-    return <p className="text-white">Please log in with GitHub. TESSSSSSSSS-TING</p>;
+    return <p className="text-white">Please log in with GitHub. TESTING</p>;
   }
 
   const hasUserEmailScope = useGitHubAuthCheck(sessionData?.access_token || "");
@@ -67,9 +67,9 @@ const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
     <div>
       <p>Hello, {session.user.name}!</p>
       {hasUserEmailScope ? (
-        <p className="text-white">You have the user:email scope. WHAT IS IT? Need to look it up.</p>
+        <p className="text-white">You have the user:email scope.</p>
       ) : (
-        <p className="text-white">You don&apos;t have the user:email scope. Too bad.</p>
+        <p className="text-white">You don&apos;t have the user:email scope.</p>
       )}
     </div>
   );

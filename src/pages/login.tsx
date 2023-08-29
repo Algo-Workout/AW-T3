@@ -2,11 +2,8 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter"
-import GitHubAuthCheck from "../components/GitHubAuthCheck";
-import { useSession } from "next-auth/react";
 
 export const Login: NextPage = () => {
-  const { data: session } = useSession();
 
   return (
     <>
@@ -24,19 +21,20 @@ export const Login: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">Sign in →</h3>
               <div className="text-lg">
-                Sign into this application with OAuth2!
+                Sign into this application with Discord!
               </div>
             </Link>
           </div>
 
           <div>
-            <h2 className="text-white">Test area</h2>
-            <GitHubAuthCheck session={session}/>
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href={`http://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent("https://localhost:3000/api/auth/github")}&response_type=code&scope=user:email`}
+              href={`http://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent('http://localhost:3000/api/auth/callback/github')}&response_type=code&scope=user:email`}
             >
-              Testing Github
+              <h3 className="text-2xl font-bold">Sign in →</h3>
+              <div className="text-lg">
+                Sign into this application with Github!
+              </div>
             </Link>
           </div>
       </main>
