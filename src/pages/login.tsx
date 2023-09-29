@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Counter } from "../components/Counter"
 
 export const Login: NextPage = () => {
+
   return (
     <>
       <Head>
@@ -20,7 +21,19 @@ export const Login: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">Sign in →</h3>
               <div className="text-lg">
-                Sign into this application with Discord OAuth2!
+                Sign into this application with Discord!
+              </div>
+            </Link>
+          </div>
+
+          <div>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href={`http://github.com/login/oauth/authorize?client_id=55f38db5a6d6644a0232&redirect_uri=${encodeURIComponent('http://localhost:3000/api/auth/callback/github')}&response_type=code&scope=user:email`}
+            >
+              <h3 className="text-2xl font-bold">Sign in →</h3>
+              <div className="text-lg">
+                Sign into this application with Github!
               </div>
             </Link>
           </div>
