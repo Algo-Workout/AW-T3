@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { Counter } from "../components/Counter"
+import { Counter } from "../components/Counter";
 
 export const Dashboard: NextPage = () => {
   return (
@@ -13,27 +13,40 @@ export const Dashboard: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <Counter/>
+          <Counter />
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
+            <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
+              <h3 className="text-2xl font-bold">Notice Board</h3>
+              <p className="text-lg">
+                Welcome to the AlgoWorkout App! We are currently in Alpha and
+                will be continuing to update things. Click here to be redirected
+                to our active github page. Welcome to the AlgoWorkout App! We
+                are currently in Alpha and will be continuing to update things.
+                Click here to be redirected to our active github page. Welcome
+                to the AlgoWorkout App! We are currently in Alpha and will be
+                continuing to update things. Click here to be redirected to our
+                active github page. Welcome to the AlgoWorkout App! We are
+                currently in Alpha and will be continuing to update things.
+                Click here to be redirected to our active github page. Welcome
+                to the AlgoWorkout App! We are currently in Alpha and will be
+                continuing to update things. Click here to be redirected to our
+                active github page. Welcome to the AlgoWorkout App! We are
+                currently in Alpha and will be continuing to update things.
+                Click here to be redirected to our active github page.
+              </p>
+            </div>
+            {/* <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="https://create.t3.gg/en/usage/first-steps"
               target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Notice Board</h3>
-              <div className="text-lg">
-                Welcome to the AlgoWorkout App! We are currently in Alpha and will be continuing to update things. Click here to be redirected to our active github page.
-              </div>
-            </Link>
+            ></Link> */}
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="./api/auth/signout"
               target="_blank"
             >
               <h3 className="text-2xl font-bold">Log out →</h3>
-              <div className="text-lg">
-                Log out from this application!
-              </div>
+              <div className="text-lg">Log out from this application!</div>
             </Link>
           </div>
         </div>
