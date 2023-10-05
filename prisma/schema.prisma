@@ -19,7 +19,7 @@ datasource db {
 //https://github.com/prisma/prisma/issues/4571#issuecomment-747496127
 
 
-// tutorial schema from Prisma docs
+// tutorial schema 
 model Post {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -29,6 +29,7 @@ model Post {
   published Boolean  @default(false)
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
+  time      DateTime @unique
 }
 
 model Profile {
