@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  try {
 
     // Create the User
   // ...write Prisma Client Queries here
@@ -12,52 +11,48 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       name: 'Victor He',
-      email: 'AW-T3@VictorHe.io',
-    },
+    email: 'AW-T3@VictorHe.io',
+    }
   })
 
   // create the bulletinboard post
-  const bulletinBoardPost = await prisma.bulletinBoard.create({
-    data: {
-      description: 'Testing Prisma BulletinBoard Post Creation',
-      owner: {
-        connect: { 
-          id: user.id, // use the ID of the bulletin board post
-        },
-      },
-    },
-  });
+  // const bulletinBoardPost = await prisma.bulletinBoard.create({
+  //   data: {
+  //     description: 'Testing Prisma BulletinBoard Post Creation',
+  //     owner: {
+  //       connect: { 
+  //         id: user.id, // use the ID of the bulletin board post
+  //       },
+  //     },
+  //   },
+  // });
 
-  console.log('User created:', user);
+ console.log('User created:', user);
 
-  console.log('Bulletin Board Post created:', bulletinBoardPost);
+  //console.log('Bulletin Board Post created:', bulletinBoardPost);
 
-  const allUsers = await prisma.user.findMany({
-    include: {
-      bulletinBoardPost:true
-    },
-  })
-  console.dir(allUsers,{depth:null})
-  console.log('All users in DB: ', JSON.stringify(allUsers));
+  const allUsers = await prisma.user.findMany()
+  console.dir(allUsers)
+  // console.log('All users in DB: ', JSON.stringify(allUsers));
 
-} catch (error) {
-    console.error('Error in testIndex. Failed check within the main function:', error);
-  } finally {
-    await prisma.$disconnect();
-  }
+// } catch (error) {
+//     console.error('Error in testIndex. Failed check within the main function:', error);
+//   } finally {
+//     await prisma.$disconnect();
+//   }
 }
 
 
-main();
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect()
-//   })
-//   .catch(async (e) => {
-//     console.error(e)
-//     await prisma.$disconnect()
-//     process.exit(1)
-//   })
+//main();
+main()
+  .then(async () => {
+    await prisma.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prisma.$disconnect()
+    process.exit(1)
+  })
 
 
 
