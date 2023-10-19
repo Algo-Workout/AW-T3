@@ -21,7 +21,7 @@ async function main() {
     data: {
       description: 'Testing Prisma BulletinBoard Post Creation',
       owner: {
-        connect: { 
+        connect: {
           id: user.id, // use the ID of the bulletin board post
         },
       },
@@ -85,11 +85,33 @@ main();
 //We were able to see the bulletinboard table in the database
 //We are getting close to entering actual data
 // Prisma studio is up and running and we can see the custom tables we've created in the schema
-
+//Thursday,0ct12th:
+// We learned we need to open a seperate terminal window to run npx prisma studio
+// We got prisma studio setup on Dwayne's computer
+// Fixed the schema by removing question mark so the fields were optional
 
 // Things to research or think about for tomorrow:
 // Errors with the "binary data format"
 // Leads:
   // Clearing out pre exisiting data in the database, since the tables don't correlate with the new schema
-  // Adding data in two different tables using Prisma that have relational fields with each other 
-  
+  // Adding data in two different tables using Prisma that have relational fields with each other
+// Thursday, 0ct 12th:
+//Got this error whenrunningcommand:npx ts-node testIndex.mjs
+/*
+➜  server git:(5/Dwayne_PrismaDiscovery) ✗ npx ts-node testIndex.mjs
+Error: PrismaClientUnknownRequestError:
+Invalid `prisma.user.create()` invocation:
+
+
+Error occurred during query execution:
+ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error { kind: Db, cause: Some(DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E22P03), message: "incorrect binary data format in bind parameter 1", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some("postgres.c"), line: Some(1901), routine: Some("exec_bind_message") }) }), transient: false })
+    at Zr.handleRequestError (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:6587)
+    at Zr.handleAndLogRequestError (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:5948)
+    at Zr.request (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:5786)
+    at async t._request (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:174:10455)
+    at async main (file:///Users/dwayneneckles/Dropbox/_Code/AW-T3/src/server/testIndex.mjs:12:16) {
+  clientVersion: '4.11.0'
+}
+
+
+*/
