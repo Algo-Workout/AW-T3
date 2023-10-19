@@ -35,7 +35,7 @@ model Account {
     scope             String? @db.Text
     id_token          String? @db.Text
     session_state     String? @db.Text
-    // user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -45,18 +45,18 @@ model Session {
     sessionToken String   @unique
     userId       String   @db.VarChar(255)
     expires      DateTime 
-    // user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
     id                      String    @id @default(cuid())
     name                    String   @db.VarChar(255)
     email                   String   @unique
-    // emailVerified           DateTime?
-    // image                   String?
-    // accounts                Account[]
-    // sessions                Session[]
-    // bulletinBoardPost      BulletinBoard[]
+    emailVerified           DateTime?
+    image                   String?
+    accounts                Account[]
+    sessions                Session[]
+    bulletinBoardPost      BulletinBoard[]
 }
 
 model VerificationToken {
@@ -68,8 +68,8 @@ model VerificationToken {
 }
 
 model BulletinBoard {
-  id                String  @id @default(cuid())
-  userId            String  @db.VarChar(255)
-  description       String  @unique @db.Text
-//   owner    User    @relation(fields: [userId], references: [id])
+    id                String  @id @default(cuid())
+    userId            String  @db.VarChar(255)
+    description       String  @unique @db.Text
+    owner    User    @relation(fields: [userId], references: [id])
 }

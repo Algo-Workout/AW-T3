@@ -11,25 +11,31 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       name: 'Victor He',
-    email: 'AW-T3@VictorHe.io',
+    email: 'AW-T3Oct17@VictorHe.io',
+    bulletinBoardPost: {
+      create: {
+        description: 'Testing Prisma BulletinBoard Post Creation Inline' 
+      }
     }
+  }
+    
   })
 
-  // create the bulletinboard post
-  // const bulletinBoardPost = await prisma.bulletinBoard.create({
-  //   data: {
-  //     description: 'Testing Prisma BulletinBoard Post Creation',
-  //     owner: {
-  //       connect: { 
-  //         id: user.id, // use the ID of the bulletin board post
-  //       },
-  //     },
-  //   },
-  // });
+  //create the bulletinboard post
+  const bulletinBoardPost = await prisma.bulletinBoard.create({
+    data: {
+      description: 'Testing Prisma BulletinBoard Post Creation',
+      owner: {
+        connect: { 
+          id: user.id, // use the ID of the bulletin board post
+        },
+      },
+    },
+  });
 
- console.log('User created:', user);
+console.log('User created:', user);
 
-  //console.log('Bulletin Board Post created:', bulletinBoardPost);
+console.log('Bulletin Board Post created:', bulletinBoardPost);
 
   const allUsers = await prisma.user.findMany()
   console.dir(allUsers)
@@ -112,6 +118,27 @@ ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error 
     at async main (file:///Users/dwayneneckles/Dropbox/_Code/AW-T3/src/server/testIndex.mjs:12:16) {
   clientVersion: '4.11.0'
 }
+
+Wins Tuesday Oct. 17th:
+- Chain of command to update schema from the schema.prisma file:
+
+# After every change in prisma.schema
+# run this command to push the schema state to the database. 
+# only use for cloud dbs 
+npx prisma db push 
+# Run this command to manually insert the new data into the database
+npx ts-node src/server/testIndex.mjs
+
+# Browse your results of your data insertion
+npx prisma studio
+
+Challenges to look forward to:
+- Write more queries in the testIndex.mjs file
+- Import the queries to the front end
+- Test queries by connecting the front end inputs, to the database
+- Create an input field for the bulletinBoard on the front end and see if we can add bulletin posts to the database
+- Render the new bulletinBoard posts from the database on the front end
+
 
 
 */
