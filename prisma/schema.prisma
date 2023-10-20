@@ -12,8 +12,8 @@ datasource db {
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
   // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   //url      = env("DATABASE_URL") // can uncomment this to use original DB
-  //url      = env("KP_DATABASE_URL") // test DB for discovery ticket
-  url      = env("DN_DATABASE_URL") // test DB for discovery ticket
+  url      = env("KP_DATABASE_URL") // test DB for discovery ticket
+  //url      = env("DN_DATABASE_URL") // test DB for discovery ticket
 }
 
 // Work around for cloud hosted DB's. This link will guide you on how to deploy a local postgresql database and use it for the prisma deployment
@@ -24,34 +24,34 @@ datasource db {
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
-  userId            String
-  type              String?
-  provider          String?
-  providerAccountId String?
+  userId            String  @db.VarChar(255)
+  type              String  @db.Text
+  provider          String  @db.Text
+  providerAccountId String  @db.Text
   refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  access_token      String? @db.VarChar(255)
   expires_at        Int?
-  token_type        String?
-  scope             String?
+  token_type        String? @db.Text
+  scope             String? @db.Text
   id_token          String? @db.Text
-  session_state     String?
+  session_state     String? @db.Text
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String    @id @default(cuid())
-  sessionToken String?   @unique
-  userId       String
-  expires      DateTime?
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String   @db.VarChar(255)
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
   id                String          @id @default(cuid())
-  name              String?
-  email             String?         @unique
+  name              String          @db.VarChar(255)
+  email             String          @unique
   emailVerified     DateTime?
   image             String?
   accounts          Account[]
@@ -60,16 +60,16 @@ model User {
 }
 
 model VerificationToken {
-  identifier String
+  identifier String   @db.VarChar(255)
   token      String   @unique
-  expires    DateTime
+  expires    DateTime @unique
 
   @@unique([identifier, token])
 }
 
 model BulletinBoard {
-  id          String  @id @default(cuid())
-  userId      String
-  description String? @unique
-  owner       User    @relation(fields: [userId], references: [id])
+  id          String @id @default(cuid())
+  userId      String @db.VarChar(255)
+  description String @unique @db.Text
+  owner       User   @relation(fields: [userId], references: [id])
 }

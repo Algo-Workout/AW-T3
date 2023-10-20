@@ -1,84 +1,120 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  try {
-
-    // Create the User
   // ...write Prisma Client Queries here
 
   // create the User first
   const user = await prisma.user.create({
     data: {
-      name: 'Victor He',
-      email: 'AW-T3@VictorHe.io',
-    },
-  })
-
-  // create the bulletinboard post
-  const bulletinBoardPost = await prisma.bulletinBoard.create({
-    data: {
-      description: 'Testing Prisma BulletinBoard Post Creation',
-      owner: {
-        connect: {
-          id: user.id, // use the ID of the bulletin board post
+      name: "What's Goin On. it's Friday Oct 20th",
+      email: "Hustlin-2.0'@Everyday.io",
+      bulletinBoardPost: {
+        create: {
+          description: "Making default test user",
         },
       },
     },
   });
 
-  console.log('User created:', user);
-
-  console.log('Bulletin Board Post created:', bulletinBoardPost);
-
-  const allUsers = await prisma.user.findMany({
-    include: {
-      bulletinBoardPost:true
+  // Create defaulttestuser
+  const defaultTestUser = await prisma.user.create({
+    data: {
+      name: "Default Test User",
+      email: "DefaultTestUser@Testing.com",
     },
-  })
-  console.dir(allUsers,{depth:null})
-  console.log('All users in DB: ', JSON.stringify(allUsers));
+  });
 
-} catch (error) {
-    console.error('Error:', error);
-  } finally {
+  //create the bulletinboard post
+  // const bulletinBoardPost = await prisma.bulletinBoard.create({
+  //   data: {
+  //     description: "Testing Prisma BulletinBoard Post Creation Thursday ",
+  //     owner: {
+  //       connect: {
+  //         id: user.id, // use the ID of the bulletin board post
+  //       },
+  //     },
+  //   },
+  // });
+
+  console.log("User created:", user);
+  console.log("Test created:", defaultTestUser);
+
+  //console.log("Bulletin Board Post created:", bulletinBoardPost);
+
+  const allUsers = await prisma.user.findMany();
+  console.dir(allUsers);
+  // console.log('All users in DB: ', JSON.stringify(allUsers));
+
+  // } catch (error) {
+  //     console.error('Error in testIndex. Failed check within the main function:', error);
+  //   } finally {
+  //     await prisma.$disconnect();
+  //   }
+}
+
+//Commentingout the main function now to test exporting thebulletinPostfunction
+
+//main();
+main()
+  .then(async () => {
     await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+
+// reads data only
+// const allUsers = await prisma.user.findMany({
+//   include: {
+//     posts: true,
+//     profile: true,
+//   },
+// })
+
+// Start of BulletinPost Function
+export default async function createBulletinPost(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "POST") {
+    const { description } = req.body;
+
+    try {
+      const bulletinBoardPost = await prisma.bulletinBoard.create({
+        data: {
+          description,
+          owner: {
+            connect: {
+              id: defaultTestUser.id,
+            },
+          },
+        },
+      });
+
+      res.status(201).json(bulletinBoardPost);
+    } catch (error) {
+      res.status(500).json({
+        error: "Unable to create bulletin board post. Error in testIndex.mjs",
+      });
+    }
+  } else {
+    res.status(405).end();
   }
 }
 
+// // The current depth option is not properly rendering all fields as intended
 
-main();
-// main()
-//   .then(async () => {
-//     await prisma.$disconnect()
-//   })
-//   .catch(async (e) => {
-//     console.error(e)
-//     await prisma.$disconnect()
-//     process.exit(1)
-//   })
+// // Log all fields
+// allUsers.forEach((user) => {
+//   console.log(`User: `, user);
+//   console.log(`Posts: `, user.posts);
+//   console.log(`Profile: `, user.profile);
 
-
-
-
-    // reads data only
-  // const allUsers = await prisma.user.findMany({
-  //   include: {
-  //     posts: true,
-  //     profile: true,
-  //   },
-  // })
-  // // The current depth option is not properly rendering all fields as intended
-
-    // // Log all fields
-  // allUsers.forEach((user) => {
-  //   console.log(`User: `, user);
-  //   console.log(`Posts: `, user.posts);
-  //   console.log(`Profile: `, user.profile);
-
-  // })
-
+// })
 
 // Wins
 //We established our first schema and corrected lingering errors
@@ -93,25 +129,31 @@ main();
 // Things to research or think about for tomorrow:
 // Errors with the "binary data format"
 // Leads:
-  // Clearing out pre exisiting data in the database, since the tables don't correlate with the new schema
-  // Adding data in two different tables using Prisma that have relational fields with each other
-// Thursday, 0ct 12th:
-//Got this error whenrunningcommand:npx ts-node testIndex.mjs
-/*
-➜  server git:(5/Dwayne_PrismaDiscovery) ✗ npx ts-node testIndex.mjs
-Error: PrismaClientUnknownRequestError:
-Invalid `prisma.user.create()` invocation:
+// Clearing out pre exisiting data in the database, since the tables don't correlate with the new schema
+// Adding data in two different tables using Prisma that have relational fields with each other
+
+// Oct 19th
+//Created the front end component and made the form have react state
+// broke down the differences in using Prisma and not using Prisma for an ORM
+// Next steps to research
+//pass the data via fetch to the Bulleting board function in the testIndex component
+// Complete tasks from front end to back end.
+
+// Export the query and implemenet to a front end component
+// Make a test area testIndex
+
+/* Oct 20th Wins:
+Within testIndexfile:
+-Created defaulttest userID
+Createdaspecific functionto createbulletinposts
+Assigned all test bulletin posts to the default user ID (temperoary)
+
+Within TestFieldInput file:
+ Updated the handle button click functionality
+Created a fetch function to invoke the createBulletinPost function
+Created detailed error handling
 
 
-Error occurred during query execution:
-ConnectorError(ConnectorError { user_facing_error: None, kind: QueryError(Error { kind: Db, cause: Some(DbError { severity: "ERROR", parsed_severity: Some(Error), code: SqlState(E22P03), message: "incorrect binary data format in bind parameter 1", detail: None, hint: None, position: None, where_: None, schema: None, table: None, column: None, datatype: None, constraint: None, file: Some("postgres.c"), line: Some(1901), routine: Some("exec_bind_message") }) }), transient: false })
-    at Zr.handleRequestError (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:6587)
-    at Zr.handleAndLogRequestError (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:5948)
-    at Zr.request (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:171:5786)
-    at async t._request (/Users/dwayneneckles/Dropbox/_Code/AW-T3/node_modules/@prisma/client/runtime/library.js:174:10455)
-    at async main (file:///Users/dwayneneckles/Dropbox/_Code/AW-T3/src/server/testIndex.mjs:12:16) {
-  clientVersion: '4.11.0'
-}
-
-
+Need to do next:
+Update the fetch path to properly handle the POST request to create the bulletin post from the front end
 */
