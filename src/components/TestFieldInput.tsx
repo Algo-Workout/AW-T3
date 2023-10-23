@@ -13,7 +13,7 @@ const TestFieldInput = () => {
   const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("src/server/createBulletinPost", {
+      const response = await fetch("api/createBulletinPost", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
