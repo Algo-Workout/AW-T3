@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import React, { useState } from "react";
 //import
 
@@ -13,24 +14,26 @@ const TestFieldInput = () => {
   const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("api/createBulletinPost", {
+      const res = await fetch("/api/add-post", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ description: inputText }),
+        body: JSON.stringify({ inputText }),
       });
-
-      if (response.ok) {
-        const data: MyData = (await response.json()) as MyData; // Specify the type
-        console.log("Bulletin Post created:", data);
-      } else {
-        // Handle error
-        console.error("Failed to create bulletin post");
-      }
+      const data: MyData = (await res.json()) as MyData; // Specify the type
+       console.log("Bulletin Post created:", data);
     } catch (error) {
       console.error("Request failed:", error);
     }
+
+    // if (response.ok) {
+    //   const data: MyData = (await response.json()) as MyData; // Specify the type
+    //   console.log("Bulletin Post created:", data);
+    // } else {
+    //   // Handle error
+    //   console.error("Failed to create bulletin post");
+    // }
   };
 
   return (
