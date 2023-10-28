@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { Login } from "./login";
 import { Dashboard } from "./dashboard";
+import TestFieldInput from "../components/TestFieldInput";
 
 const Home: NextPage = () => {
   // Authenticate Session, otherwise render sign in link (currently DISCORD OAUTH)
@@ -10,7 +11,10 @@ const Home: NextPage = () => {
   if (!session) {
     // Handle unauthenticated state, e.g. render a SignIn component
     return (
+      <>
         <Login />
+        <TestFieldInput />
+      </>
     );
   }
 
