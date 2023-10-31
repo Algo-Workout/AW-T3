@@ -10,19 +10,20 @@ interface MyData {
 
 const TestFieldInput = () => {
   const [inputText, setInputText] = useState("");
+  const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
 
   const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/add-post", {
+      const res = await fetch("/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ inputText }),
+        body: JSON.stringify({ userID: userID, message: inputText }),
       });
-      const data: MyData = (await res.json()) as MyData; // Specify the type
-       console.log("Bulletin Post created:", data);
+      const data: string = (await res.json()) as string; // Specify the type
+      console.log("Bulletin Post created:", data);
     } catch (error) {
       console.error("Request failed:", error);
     }

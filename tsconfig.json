@@ -21,6 +21,7 @@
       "~/*": ["src/*"]
     }
   },
+  "types": ["@prisma/client"],
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
