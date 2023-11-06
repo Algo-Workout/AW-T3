@@ -64,5 +64,8 @@ Create the bulletin post in the actual database from the front end
   - add modal window or seperate page with the form
   - conditionally render
 -
-- Kevin will work on the counter to have the db match the users we have
 
+## Wins for Sunday Nov 5th:
+- Created a new API route using Prisma, to fetch the number of users within the database
+- Updated logic within Counter component to make an HTTP request to the new API route created above
+- Front end properly rendering how many uses are "waiting" for the application, based on existing users within the prisma/SQL database
