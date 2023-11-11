@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+
 import React, { useState } from "react";
 //import
 
@@ -17,8 +17,8 @@ const TestFieldInput = () => {
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({ userID: userID, message: inputText }),
       });

@@ -2,8 +2,41 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter";
+import TestFieldInput from "../components/TestFieldInput";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Cross2Icon } from "@radix-ui/react-icons";
+import React, { useState } from "react";
+
+interface MyData {
+  // Define the properties you expect in the JSON response
+  key: string;
+  value: number;
+}
 
 export const Dashboard: NextPage = () => {
+  const [open, setOpen] = React.useState(false);
+  const [inputText, setInputText] = useState("");
+  const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
+
+  const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("<handlebuttonclick></handlebuttonclick>");
+    setOpen(false);
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID: userID, message: inputText }),
+      });
+      const data: string = (await res.json()) as string; // Specify the type
+      console.log("Bulletin Post created:", data);
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -14,26 +47,105 @@ export const Dashboard: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <Counter />
+
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
-              <h3 className="text-2xl font-bold">Notice Board</h3>
-              <p className="text-lg">
-                Welcome to the AlgoWorkout App! We are currently in Alpha and
-                will be continuing to update things. Click here to be redirected
-                to our active github page. Welcome to the AlgoWorkout App! We
-                are currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page. Welcome
-                to the AlgoWorkout App! We are currently in Alpha and will be
-                continuing to update things. Click here to be redirected to our
-                active github page. Welcome to the AlgoWorkout App! We are
-                currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page. Welcome
-                to the AlgoWorkout App! We are currently in Alpha and will be
-                continuing to update things. Click here to be redirected to our
-                active github page. Welcome to the AlgoWorkout App! We are
-                currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page.
-              </p>
+            <div>
+              <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
+                <div className="flex space-x-16">
+                  <h3 className="text-2xl font-bold">Notice Board</h3>
+
+                  <Dialog.Root open={open} onOpenChange={setOpen}>
+                    <Dialog.Trigger asChild>
+                      <button className="Button violet">Add New Post</button>
+                    </Dialog.Trigger>
+                    <Dialog.Portal>
+                      <Dialog.Overlay className="DialogOverlay" />
+                      <Dialog.Content className="DialogContent">
+                        <Dialog.Title className="DialogTitle">
+                          Add Bulletin Post
+                        </Dialog.Title>
+                        <Dialog.Description className="DialogDescription">
+                          Add a new bulletin post here. Click save when
+                          you&apos;re done.
+                        </Dialog.Description>
+
+                        <div className="m-10 h-48 flex-col items-center justify-center">
+                          <form onSubmit={handleButtonClick}>
+                            <textarea
+                              className="h-32 w-full rounded-md border p-2"
+                              placeholder="Enter your text..."
+                              value={inputText}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLTextAreaElement>
+                              ) => setInputText(e.target.value)}
+                            ></textarea>
+
+                            <div
+                              style={{
+                                display: "flex",
+                                marginTop: 25,
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              <Dialog.Close asChild>
+                                <button
+                                  className="Button rounder-r bg-blue-600 p-2 text-white shadow duration-300 hover:bg-blue-700" type="submit">
+                                  Submit
+                                </button>
+                              </Dialog.Close>
+                            </div>
+                            <Dialog.Close asChild>
+                              <button className="IconButton" aria-label="Close">
+                                <Cross2Icon />
+                              </button>
+                            </Dialog.Close>
+                          </form>
+                        </div>
+
+                        {/* <fieldset className="Fieldset">
+                          <label className="Label" htmlFor="name">
+                            Name
+                          </label>
+                          <input
+                            className="Input"
+                            id="name"
+                            defaultValue="Pedro Duarte"
+                          />
+                        </fieldset>
+                        <fieldset className="Fieldset">
+                          <label className="Label" htmlFor="username">
+                            Username
+                          </label>
+                          <input
+                            className="Input"
+                            id="username"
+                            defaultValue="@peduarte"
+                          />
+                        </fieldset> */}
+                      </Dialog.Content>
+                    </Dialog.Portal>
+                  </Dialog.Root>
+                </div>
+
+                <p className="text-lg">
+                  Welcome to the AlgoWorkout App! We are currently in Alpha and
+                  will be continuing to update things. Click here to be
+                  redirected to our active github page. Welcome to the
+                  AlgoWorkout App! We are currently in Alpha and will be
+                  continuing to update things. Click here to be redirected to
+                  our active github page. Welcome to the AlgoWorkout App! We are
+                  currently in Alpha and will be continuing to update things.
+                  Click here to be redirected to our active github page. Welcome
+                  to the AlgoWorkout App! We are currently in Alpha and will be
+                  continuing to update things. Click here to be redirected to
+                  our active github page. Welcome to the AlgoWorkout App! We are
+                  currently in Alpha and will be continuing to update things.
+                  Click here to be redirected to our active github page. Welcome
+                  to the AlgoWorkout App! We are currently in Alpha and will be
+                  continuing to update things. Click here to be redirected to
+                  our active github page.
+                </p>
+              </div>
             </div>
             {/* <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
