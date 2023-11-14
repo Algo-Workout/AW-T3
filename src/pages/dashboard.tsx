@@ -3,9 +3,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter";
 import TestFieldInput from "../components/TestFieldInput";
-import * as Dialog from "@radix-ui/react-dialog";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 interface MyData {
   // Define the properties you expect in the JSON response
@@ -25,7 +24,7 @@ type BulletinBoardArray = {
 };
 
 export const Dashboard: NextPage = () => {
-  const [open, setOpen] = React.useState(false);
+  const { data: session } = useSession();
   const [inputText, setInputText] = useState("");
   const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
   const [posts, setPosts] = useState<BulletinBoardData[]>([]);
@@ -46,10 +45,9 @@ export const Dashboard: NextPage = () => {
     getPosts();
   }, []);
 
-  const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("<handlebuttonclick></handlebuttonclick>");
-    setOpen(false);
+ 
 
     try {
       const res = await fetch("/api/posts", {
@@ -83,76 +81,18 @@ export const Dashboard: NextPage = () => {
               <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
                 <div className="flex space-x-16">
                   <h3 className="text-2xl font-bold">Notice Board</h3>
-
-                  <Dialog.Root open={open} onOpenChange={setOpen}>
-                    <Dialog.Trigger asChild>
-                      <button className="Button violet">Add New Post</button>
-                    </Dialog.Trigger>
-                    <Dialog.Portal>
-                      <Dialog.Overlay className="DialogOverlay" />
-                      <Dialog.Content className="DialogContent">
-                        <Dialog.Title className="DialogTitle">
-                          Add Bulletin Post
-                        </Dialog.Title>
-                        <Dialog.Description className="DialogDescription">
-                          Add a new bulletin post here. Click save when
-                          you&apos;re done.
-                        </Dialog.Description>
-                        <Dialog.Close asChild>
-                          <TestFieldInput />
-                        </Dialog.Close>
-
-                        <div className="m-10 h-48 flex-col items-center justify-center">
-                          <form onSubmit={handleButtonClick}>
-                            <textarea
-                              className="h-32 w-full rounded-md border p-2"
-                              placeholder="Enter your text..."
-                              value={inputText}
-                              onChange={(
-                                e: React.ChangeEvent<HTMLTextAreaElement>
-                              ) => setInputText(e.target.value)}
-                            ></textarea>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                marginTop: 25,
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              <button
-                                className="Button rounder-r bg-blue-600 p-2 text-white shadow duration-300 hover:bg-blue-700"
-                                type="button"
-                              >
-                                Submit
-                              </button>
-                            </div>
-                            <Dialog.Close asChild>
-                              <button className="IconButton" aria-label="Close">
-                                <Cross2Icon />
-                              </button>
-                            </Dialog.Close>
-                          </form>
-                        </div>
-                      </Dialog.Content>
-                    </Dialog.Portal>
-                  </Dialog.Root>
                 </div>
 
                 <ul>
                   {posts.map((post) => (
-                    <li key={post.id}>
+                    <li key={post.id} className="mb-4">
                       <p className="text-lg">{post.description}</p>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            {/* <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            ></Link> */}
+
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="./api/auth/signout"
@@ -162,6 +102,15 @@ export const Dashboard: NextPage = () => {
               <div className="text-lg">Log out from this application!</div>
             </Link>
           </div>
+
+          {session && (
+            <TestFieldInput
+              getPosts={getPosts}
+              setInputText={setInputText}
+              inputText={inputText}
+              submitForm={submitForm}
+            />
+          )}
         </div>
       </main>
     </>

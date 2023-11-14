@@ -27,8 +27,6 @@ export default async function handler(
       const body = req.body as ResponseData;
       const inputText:string = body.message;
       const userID:string = body.userID || "";
-      // Process the inputText as needed
-      //const data = { userID: userID,message: inputText }; // Replace with your data
 
       // create the bulletinboard post
       const data: Prisma.BulletinBoardCreateInput = {
@@ -46,11 +44,11 @@ export default async function handler(
       });
 
    // console.log(`bulletinBoardCreate: ${bulletinBoard}`);
-
+console.log(inputText)
      res.status(200).json({ userID, message: inputText });
 
-
     } catch (error) {
+
       res.status(400).json({ userID: "", message: "Invalid request data" });
     }
   } else if (req.method === "GET") {
