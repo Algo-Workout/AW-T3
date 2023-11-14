@@ -62,9 +62,14 @@ Create the bulletin post in the actual database from the front end
   - Create Add Post button when you login
   - Moving the form into logged in state in a modal
     - add modal window or seperate page with the form
+
   - Add the new form entries to the top of the div
   - on submit click of the form, data gets saved to database,
     - the form closes and the component refreshes
+  ---
+  Refinement
+  Need getposts to send back an json array of posts
+  Need to call getPosts from the front end and see if it returns json
 
 - Kevin will work on the counter to have the db match the users we have
 

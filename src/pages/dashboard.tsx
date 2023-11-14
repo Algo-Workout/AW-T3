@@ -5,7 +5,7 @@ import { Counter } from "../components/Counter";
 import TestFieldInput from "../components/TestFieldInput";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface MyData {
   // Define the properties you expect in the JSON response
@@ -13,15 +13,44 @@ interface MyData {
   value: number;
 }
 
+type BulletinBoardData = {
+  // Define the properties of a single row from the bulletinBoard table
+  id: string;
+  description: string;
+  // ... add other properties based on your schema
+};
+
+type BulletinBoardArray = {
+  allRows: BulletinBoardData[];
+};
+
 export const Dashboard: NextPage = () => {
   const [open, setOpen] = React.useState(false);
   const [inputText, setInputText] = useState("");
   const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
+  const [posts, setPosts] = useState<BulletinBoardData[]>([]);
+
+  const getPosts = async () => {
+    try {
+      const response = await fetch("/api/posts");
+      const postsArray: BulletinBoardArray =
+        (await response.json()) as BulletinBoardArray;
+      const postsReversed = postsArray.allRows.slice().reverse();
+      setPosts(postsReversed);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   const handleButtonClick = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log("<handlebuttonclick></handlebuttonclick>");
     setOpen(false);
-    e.preventDefault();
+
     try {
       const res = await fetch("/api/posts", {
         method: "POST",
@@ -32,6 +61,7 @@ export const Dashboard: NextPage = () => {
       });
       const data: string = (await res.json()) as string; // Specify the type
       console.log("Bulletin Post created:", data);
+      getPosts();
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -68,6 +98,9 @@ export const Dashboard: NextPage = () => {
                           Add a new bulletin post here. Click save when
                           you&apos;re done.
                         </Dialog.Description>
+                        <Dialog.Close asChild>
+                          <TestFieldInput />
+                        </Dialog.Close>
 
                         <div className="m-10 h-48 flex-col items-center justify-center">
                           <form onSubmit={handleButtonClick}>
@@ -87,12 +120,12 @@ export const Dashboard: NextPage = () => {
                                 justifyContent: "flex-end",
                               }}
                             >
-                              <Dialog.Close asChild>
-                                <button
-                                  className="Button rounder-r bg-blue-600 p-2 text-white shadow duration-300 hover:bg-blue-700" type="submit">
-                                  Submit
-                                </button>
-                              </Dialog.Close>
+                              <button
+                                className="Button rounder-r bg-blue-600 p-2 text-white shadow duration-300 hover:bg-blue-700"
+                                type="button"
+                              >
+                                Submit
+                              </button>
                             </div>
                             <Dialog.Close asChild>
                               <button className="IconButton" aria-label="Close">
@@ -101,50 +134,18 @@ export const Dashboard: NextPage = () => {
                             </Dialog.Close>
                           </form>
                         </div>
-
-                        {/* <fieldset className="Fieldset">
-                          <label className="Label" htmlFor="name">
-                            Name
-                          </label>
-                          <input
-                            className="Input"
-                            id="name"
-                            defaultValue="Pedro Duarte"
-                          />
-                        </fieldset>
-                        <fieldset className="Fieldset">
-                          <label className="Label" htmlFor="username">
-                            Username
-                          </label>
-                          <input
-                            className="Input"
-                            id="username"
-                            defaultValue="@peduarte"
-                          />
-                        </fieldset> */}
                       </Dialog.Content>
                     </Dialog.Portal>
                   </Dialog.Root>
                 </div>
 
-                <p className="text-lg">
-                  Welcome to the AlgoWorkout App! We are currently in Alpha and
-                  will be continuing to update things. Click here to be
-                  redirected to our active github page. Welcome to the
-                  AlgoWorkout App! We are currently in Alpha and will be
-                  continuing to update things. Click here to be redirected to
-                  our active github page. Welcome to the AlgoWorkout App! We are
-                  currently in Alpha and will be continuing to update things.
-                  Click here to be redirected to our active github page. Welcome
-                  to the AlgoWorkout App! We are currently in Alpha and will be
-                  continuing to update things. Click here to be redirected to
-                  our active github page. Welcome to the AlgoWorkout App! We are
-                  currently in Alpha and will be continuing to update things.
-                  Click here to be redirected to our active github page. Welcome
-                  to the AlgoWorkout App! We are currently in Alpha and will be
-                  continuing to update things. Click here to be redirected to
-                  our active github page.
-                </p>
+                <ul>
+                  {posts.map((post) => (
+                    <li key={post.id}>
+                      <p className="text-lg">{post.description}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
             {/* <Link
