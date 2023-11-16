@@ -21,13 +21,15 @@
       "~/*": ["src/*"]
     }
   },
+  "types": ["@prisma/client"],
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "**/*.cjs",
-    "**/*.mjs"
-  ],
+    "**/*.mjs",
+    "**/*.mjs",
+    "**/*.js", "src/pages/posts2/page.tsx" ],
   "exclude": ["node_modules"]
 }
