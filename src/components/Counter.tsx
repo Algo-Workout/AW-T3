@@ -25,8 +25,6 @@ export const Counter = () => {
           Counter : <span className="text-[hsl(280,100%,70%)]">{count}</span>{" "}
           waiting
         </h1>
-        {/* <button onClick={() => setCount(count + 1)}>Increment</button>
-        <button onClick={() => setCount(count - 1)}>Decrement</button> */}
       </div>
     </nav>
   );

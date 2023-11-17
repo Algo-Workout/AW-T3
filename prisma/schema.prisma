@@ -16,10 +16,6 @@ datasource db {
   //url      = env("DN_DATABASE_URL") // test DB for discovery ticket
 }
 
-// Work around for cloud hosted DB's. This link will guide you on how to deploy a local postgresql database and use it for the prisma deployment
-//https://github.com/prisma/prisma/issues/4571#issuecomment-747496127
-
-// Uncomment below to access original schema
 
 // Necessary for Next auth
 model Account {

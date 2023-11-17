@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import React, { useState } from "react";
-//import
 
 interface MyData {
-  // Define the properties you expect in the JSON response
   key: string;
   value: number;
 }
@@ -27,14 +25,6 @@ const TestFieldInput = () => {
     } catch (error) {
       console.error("Request failed:", error);
     }
-
-    // if (response.ok) {
-    //   const data: MyData = (await response.json()) as MyData; // Specify the type
-    //   console.log("Bulletin Post created:", data);
-    // } else {
-    //   // Handle error
-    //   console.error("Failed to create bulletin post");
-    // }
   };
 
   return (

@@ -35,9 +35,9 @@ export default async function handler(
         data,
       });
 
-   // console.log(`bulletinBoardCreate: ${bulletinBoard}`);
+    // console.log(`bulletinBoardCreate: ${bulletinBoard}`);
 
-     res.status(200).json({ userID, message: inputText });
+    res.status(200).json({ userID, message: inputText });
 
 
     } catch (error) {
