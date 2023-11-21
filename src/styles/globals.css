@@ -91,7 +91,7 @@ input {
 }
 
 .Button.violet:hover {
-  background-color: var(--mauve-3);
+  background-color: lightgray;
 }
 
 .Button.violet:focus {
