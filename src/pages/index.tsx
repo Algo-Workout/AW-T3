@@ -11,6 +11,7 @@ const Home: NextPage = () => {
   if (!session) {
     // Handle unauthenticated state, e.g. render a SignIn component
     return (
+    
       <>
         <Login />
       </>
@@ -18,9 +19,10 @@ const Home: NextPage = () => {
   }
 
   return (
+    <>
       <Dashboard />
+    </>
   );
-
 };
 
 export default Home;

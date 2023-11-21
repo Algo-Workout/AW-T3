@@ -2,8 +2,69 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter";
+import TestFieldInput from "../components/TestFieldInput";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+
+interface MyData {
+  // Define the properties you expect in the JSON response
+  key: string;
+  value: number;
+}
+
+type BulletinBoardData = {
+  // Define the properties of a single row from the bulletinBoard table
+  id: string;
+  description: string;
+  // ... add other properties based on your schema
+};
+
+type BulletinBoardArray = {
+  allRows: BulletinBoardData[];
+};
 
 export const Dashboard: NextPage = () => {
+  const { data: session } = useSession();
+  const [inputText, setInputText] = useState("");
+  const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
+  const [posts, setPosts] = useState<BulletinBoardData[]>([]);
+
+  const getPosts = async () => {
+    try {
+      const response = await fetch("/api/posts");
+      const postsArray: BulletinBoardArray =
+        (await response.json()) as BulletinBoardArray;
+      const postsReversed = postsArray.allRows.slice().reverse();
+      setPosts(postsReversed);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+ 
+
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID: userID, message: inputText }),
+      });
+      const data: string = (await res.json()) as string; // Specify the type
+      console.log("Bulletin Post created:", data);
+      getPosts();
+    } catch (error) {
+      console.error("Request failed:", error);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -14,32 +75,24 @@ export const Dashboard: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <Counter />
+
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
-              <h3 className="text-2xl font-bold">Notice Board</h3>
-              <p className="text-lg">
-                Welcome to the AlgoWorkout App! We are currently in Alpha and
-                will be continuing to update things. Click here to be redirected
-                to our active github page. Welcome to the AlgoWorkout App! We
-                are currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page. Welcome
-                to the AlgoWorkout App! We are currently in Alpha and will be
-                continuing to update things. Click here to be redirected to our
-                active github page. Welcome to the AlgoWorkout App! We are
-                currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page. Welcome
-                to the AlgoWorkout App! We are currently in Alpha and will be
-                continuing to update things. Click here to be redirected to our
-                active github page. Welcome to the AlgoWorkout App! We are
-                currently in Alpha and will be continuing to update things.
-                Click here to be redirected to our active github page.
-              </p>
+            <div>
+              <div className="scrollbar h-48 gap-4 overflow-scroll rounded-xl bg-white/10 p-4 text-white">
+                <div className="flex space-x-16">
+                  <h3 className="text-2xl font-bold">Notice Board</h3>
+                </div>
+
+                <ul>
+                  {posts.map((post) => (
+                    <li key={post.id} className="mb-4">
+                      <p className="text-lg">{post.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            {/* <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            ></Link> */}
+
             <Link
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               href="./api/auth/signout"
@@ -49,6 +102,15 @@ export const Dashboard: NextPage = () => {
               <div className="text-lg">Log out from this application!</div>
             </Link>
           </div>
+
+          {session && (
+            <TestFieldInput
+              getPosts={getPosts}
+              setInputText={setInputText}
+              inputText={inputText}
+              submitForm={submitForm}
+            />
+          )}
         </div>
       </main>
     </>
