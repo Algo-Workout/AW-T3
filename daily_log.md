@@ -73,3 +73,11 @@ Create the bulletin post in the actual database from the front end
 
 - Kevin will work on the counter to have the db match the users we have
 
+## Nov 16th Code review:
+- Removed these imports from the globals.css file:
+```
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/green.css';
+@import '@radix-ui/colors/mauve.css';
+@import '@radix-ui/colors/violet.css';
+```

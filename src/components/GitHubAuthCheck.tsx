@@ -37,10 +37,6 @@ const useGitHubAuthCheck = (accessToken: string) => {
   };
 
   useEffect(() => {
-  //   (async () => {
-  //     await checkScopes(accessToken);
-  //   });
-  // }, [accessToken]);
 
     const fetchScopes = async () => {
       const result = await checkScopes(accessToken);

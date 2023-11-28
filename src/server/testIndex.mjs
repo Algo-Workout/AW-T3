@@ -18,7 +18,7 @@ async function main() {
     },
   });
 
-  // Create defaulttestuser
+  // Create defaulttestuser to assign all test bulletin board posts to
   const defaultTestUser = await prisma.user.create({
     data: {
       name: "Default Test User",
@@ -29,22 +29,10 @@ async function main() {
   console.log("User created:", user);
   console.log("Test created:", defaultTestUser);
 
-  //console.log("Bulletin Board Post created:", bulletinBoardPost);
-
   const allUsers = await prisma.user.findMany();
   console.dir(allUsers);
-  // console.log('All users in DB: ', JSON.stringify(allUsers));
-
-  // } catch (error) {
-  //     console.error('Error in testIndex. Failed check within the main function:', error);
-  //   } finally {
-  //     await prisma.$disconnect();
-  //   }
 }
 
-//Commentingout the main function now to test exporting thebulletinPostfunction
-
-//main();
 main()
   .then(async () => {
     await prisma.$disconnect();
@@ -54,33 +42,3 @@ main()
     await prisma.$disconnect();
     process.exit(1);
 });
-
-// reads data only
-// const allUsers = await prisma.user.findMany({
-//   include: {
-//     posts: true,
-//     profile: true,
-//   },
-// })
-
-
-// // Log all fields
-// allUsers.forEach((user) => {
-//   console.log(`User: `, user);
-//   console.log(`Posts: `, user.posts);
-//   console.log(`Profile: `, user.profile);
-
-// })
-
-
-  //create the bulletinboard post
-  // const bulletinBoardPost = await prisma.bulletinBoard.create({
-  //   data: {
-  //     description: "Testing Prisma BulletinBoard Post Creation Thursday ",
-  //     owner: {
-  //       connect: {
-  //         id: user.id, // use the ID of the bulletin board post
-  //       },
-  //     },
-  //   },
-  // });
