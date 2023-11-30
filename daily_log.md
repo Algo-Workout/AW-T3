@@ -81,3 +81,55 @@ Create the bulletin post in the actual database from the front end
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';
 ```
+
+## Nov 30th
+- Attempting to deploy. Received following error from build on vercel dashboard:
+```
+Failed to compile.
+./src/components/GitHubAuthCheck.tsx:64:61
+Type error: Property 'access_token' does not exist on type 'Session'.
+  62 |   }
+  63 | 
+> 64 |   const hasUserEmailScope = useGitHubAuthCheck(sessionData?.access_token || "");
+     |                                                             ^
+  65 | 
+  66 |   return (
+  67 |     <div>
+Error: Command "npm run build" exited with 1
+```
+
+- First edit was to change argument "sessionToken?" to  "sessionData?.access_token" within the useGitHubAuthCheck function
+  
+Next, we have two errors:
+- **Error 1: React Hook "useGitHubAuthCheck" is called conditionally.**
+  - The invocation of the **useGitHubtAuthCheck** function is conditional which makes it invalid.
+  - To resolve, call the hook unconditionally in the top level of component, and then use the result conditionally.
+The fix:
+```
+const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
+  const { data: sessionData } = useSession();
+  const accessToken = sessionData?.access_token || "";
+  const hasUserEmailScope = useGitHubAuthCheck(accessToken);
+
+  if (!session) {
+    return <p className="text-white">Please log in with GitHub. TESTING</p>;
+  }
+
+  return (
+    <div>
+      <p>Hello, {session.user.name}!</p>
+      {hasUserEmailScope ? (
+        <p className="text-white">You have the user:email scope.</p>
+      ) : (
+        <p className="text-white">You don&apos;t have the user:email scope.</p>
+      )}
+    </div>
+  );
+};
+
+```
+
+- **Error 2: Unsafe argument of type any assigned to a parameter of type string.**
+- Adding module client in api/auth/[...nextauth]
+- [Docs](https://next-auth.js.org/getting-started/typescript)
+- [Docs2](https://next-auth.js.org/getting-started/client)

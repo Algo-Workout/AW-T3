@@ -15,6 +15,10 @@ interface AccessTokenResponse {
   access_token: string;
 }
 
+// interface Session extends NextAuthSession {
+//   access_token?: string;
+// }
+
 // custom hook
 const useGitHubAuthCheck = (accessToken: string) => {
   const [hasUserEmailScope, setHasUserEmailScope] = useState(false);
@@ -52,12 +56,12 @@ const useGitHubAuthCheck = (accessToken: string) => {
 
 const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
   const { data: sessionData } = useSession();
+  const accessToken = (sessionData?.access_token || "") as string;
+  const hasUserEmailScope = useGitHubAuthCheck(accessToken);
 
-  if (!session) {
+  if (status === "authenticated") {
     return <p className="text-white">Please log in with GitHub. TESTING</p>;
   }
-
-  const hasUserEmailScope = useGitHubAuthCheck(sessionData?.access_token || "");
 
   return (
     <div>
