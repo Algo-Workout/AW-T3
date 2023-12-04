@@ -8,7 +8,7 @@ interface ApiResponseHeaders {
 }
 
 interface GitHubAuthProps {
-  session: Session | null;
+  session: Session;
 }
 
 interface AccessTokenResponse {
@@ -47,6 +47,7 @@ const useGitHubAuthCheck = (accessToken: string) => {
       setHasUserEmailScope(result);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchScopes();
   }, [accessToken]);
 
@@ -56,12 +57,8 @@ const useGitHubAuthCheck = (accessToken: string) => {
 
 const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
   const { data: sessionData } = useSession();
-  const accessToken = (sessionData?.access_token || "") as string;
+  const accessToken = (sessionData || "") as string;
   const hasUserEmailScope = useGitHubAuthCheck(accessToken);
-
-  if (status === "authenticated") {
-    return <p className="text-white">Please log in with GitHub. TESTING</p>;
-  }
 
   return (
     <div>

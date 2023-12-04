@@ -133,3 +133,8 @@ const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
 - Adding module client in api/auth/[...nextauth]
 - [Docs](https://next-auth.js.org/getting-started/typescript)
 - [Docs2](https://next-auth.js.org/getting-started/client)
+
+
+## Monday December 4th.
+- Removed the "?.access_token" property from the "type 'Session'" from `const hasUserEmailScope`. 
+- It removed the error, but will have to see if it affects the deployment
