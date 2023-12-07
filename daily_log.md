@@ -138,3 +138,38 @@ const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
 ## Monday December 4th.
 - Removed the "?.access_token" property from the "type 'Session'" from `const hasUserEmailScope`. 
 - It removed the error, but will have to see if it affects the deployment
+- HookWebpackError: Unexpected '/'. Escaping special characters with \
+  - [Docs](https://github.com/vercel/next.js/issues/50989) TL:DR; Soultion provided in canary update;
+
+## Thursday Dec 7th:
+- CUrrent error from terminal during build attempt:
+```
+error - Failed to load next.config.mjs, see more info here https://nextjs.org/docs/messages/next-config-error
+> Build error occurred
+Error: Invalid environment variables
+    at file:///vercel/path0/src/env.mjs:79:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+Error: Command "npm run build" exited with 1
+
+```
+- This could be due to a syntax error or attempting to require/import a module that wasn't available.
+- `npm i postcss-flexbugs-fixes`
+- `npm i postcss-preset-env`
+- `npm i postcss-normalize`
+- `npm i @fullhuman/postcss-purgecss`
+- Error after installing all of these:
+```
+error - ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[1].oneOf[13].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[1].oneOf[13].use[2]!./src/styles/globals.css
+Error: Unexpected '/'. Escaping special characters with \ may help.
+Import trace for requested module:
+./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[1].oneOf[13].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[1].oneOf[13].use[2]!./src/styles/globals.css
+./src/styles/globals.css
+```
+- Checked globals.css file. Found type at line 29: Missing forward slash to make the comment
+```
+* reset */ button,
+fieldset,
+input {
+  all: unset;
+}
+```

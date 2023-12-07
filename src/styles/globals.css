@@ -26,7 +26,8 @@
   }
 }
 
-* reset */ button,
+/* reset */ 
+button,
 fieldset,
 input {
   all: unset;
