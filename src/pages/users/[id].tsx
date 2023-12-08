@@ -1,7 +1,7 @@
+import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const User = () => {
+const User: NextPage = () => {
   const { data: session } = useSession();
 
   if (!session) {
@@ -11,3 +11,5 @@ const User = () => {
 
   return <p>Welcome {session.user.name}!</p>;
 };
+
+export default User;

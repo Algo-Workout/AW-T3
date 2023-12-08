@@ -1,9 +1,9 @@
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter"
 
-export const Login: NextPage = () => {
+const Login: NextPage = () => {
 
   return (
     <>
@@ -41,3 +41,5 @@ export const Login: NextPage = () => {
     </>
   );
 };
+
+export default Login;

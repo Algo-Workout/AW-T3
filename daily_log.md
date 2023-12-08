@@ -213,3 +213,16 @@ interface BulletinPostRequestBody
 ```
 - Will continue by ignoring linting for async functions by adding `void`
   - [Docs](https://typescript-eslint.io/rules/no-floating-promises/)
+
+
+- Saved and pushed code to test in Vercel. "Build optimization" failing.
+  - Delete `.next` folder and run cli `npm run build` to see errors
+```
+> Build optimization failed: found pages without a React Component as default export in 
+pages/users/[id]
+pages/login
+pages/dashboard  
+```
+  - [Docs](https://nextjs.org/docs/messages/page-without-valid-component)
+  - Solution: import type {NextPage} from next, assign component as NextPage type, finally `export default` the component at the bottom of the file
+  - 

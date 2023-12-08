@@ -1,16 +1,10 @@
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter";
 import TestFieldInput from "../components/TestFieldInput";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
-// interface MyData {
-//   // Define the properties you expect in the JSON response
-//   key: string;
-//   value: number;
-// }
 
 type BulletinBoardData = {
   // Define the properties of a single row from the bulletinBoard table
@@ -24,7 +18,7 @@ type BulletinBoardArray = {
 };
 
   // "userId is a test user"
-export const Dashboard: NextPage = () => {
+const Dashboard: NextPage = () => {
   const userID = "clnz8jzpg00067z3yx42l0w60";
   const { data: session } = useSession();
   const [inputText, setInputText] = useState("");
@@ -117,3 +111,5 @@ export const Dashboard: NextPage = () => {
     </>
   );
 };
+
+export default Dashboard;
