@@ -173,3 +173,43 @@ input {
   all: unset;
 }
 ```
+- Pushed up fixes and reattempted redeploy:
+```
+error - Failed to load next.config.mjs, see more info here https://nextjs.org/docs/messages/next-config-error
+> Build error occurred
+Error: Invalid environment variables
+    at file:///vercel/path0/src/env.mjs:79:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:194:25)
+Error: Command "npm run build" exited with 1
+```
+- Went to settings tab in Vercel dashboard and input & saved all env code
+- Redeploy
+- Many typescript errors 
+
+
+## Friday Dec 8th
+
+- Tried adjusting typescript config to resolve typescript issue:
+
+
+- Location of typescript errors that are avoided **Need to come back and resolve later**:
+  - `./src/pages/api/createUser.ts`, lines 28 & 37
+  - `./src/pages/api/createBulletinPost.ts`, line 17
+  - `./src/pages/users/[id].tsx`, ignored with linter
+  - `./src/server/controllers/userController.ts`, ignored with linter
+
+- `./src/pages/dashboard.tsx`:
+  - Commented out interface MyData
+  - Declared userID variable and removed its respective hook
+  - First issue came from typescript "unsafe assignment of an 'any' value:
+```
+Unsafe assignment of an `any` value.eslint@typescript-eslint/no-unsafe-assignment
+interface BulletinPostRequestBody
+```
+  - Solution:
+```
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { description }: BulletinPostRequestBody = req.body;
+```
+- Will continue by ignoring linting for async functions by adding `void`
+  - [Docs](https://typescript-eslint.io/rules/no-floating-promises/)

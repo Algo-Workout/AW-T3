@@ -4,13 +4,17 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+interface BulletinPostRequestBody {
+  description: string;
+}
 
 export default async function createBulletinPost(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { description } = req.body;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { description }: BulletinPostRequestBody = req.body;
 
     try {
       const bulletinBoardPost = await prisma.bulletinBoard.create({

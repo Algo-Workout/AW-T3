@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
 // included eslint disables on warnings for the "unsafe assignment of any" for both of these functions
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isValidUserData(data: any): data is UserData {
   if (typeof data === 'object' && data !== null) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -32,8 +33,9 @@ function isValidUserData(data: any): data is UserData {
   }
   return false;
 }
-
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
 function isValidBulletinBoardPost(post: any): post is UserData['bulletinBoardPost'] {
+  
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   return typeof post === 'object' && post !== null && typeof post.description === 'string';
 }

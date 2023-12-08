@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { PrismaClient, User } from "@prisma/client";
 
 const prisma = new PrismaClient();

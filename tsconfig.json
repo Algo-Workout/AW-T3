@@ -21,7 +21,7 @@
       "~/*": ["src/*"]
     }
   },
-  "types": ["@prisma/client"],
+  "types": ["@prisma/client", "node", "next"],
   "include": [
     ".eslintrc.cjs",
     "next-env.d.ts",
@@ -29,7 +29,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "**/*.mjs",
-    "**/*.js", "src/pages/posts2/page.tsx" ],
+    "**/*.js", 
+    "src/pages/posts2/page.tsx" 
+  ],
   "exclude": ["node_modules"]
 }

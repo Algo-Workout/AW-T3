@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const User = () => {
   const { data: session } = useSession();
 

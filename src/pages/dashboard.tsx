@@ -6,11 +6,11 @@ import TestFieldInput from "../components/TestFieldInput";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-interface MyData {
-  // Define the properties you expect in the JSON response
-  key: string;
-  value: number;
-}
+// interface MyData {
+//   // Define the properties you expect in the JSON response
+//   key: string;
+//   value: number;
+// }
 
 type BulletinBoardData = {
   // Define the properties of a single row from the bulletinBoard table
@@ -23,10 +23,11 @@ type BulletinBoardArray = {
   allRows: BulletinBoardData[];
 };
 
+  // "userId is a test user"
 export const Dashboard: NextPage = () => {
+  const userID = "clnz8jzpg00067z3yx42l0w60";
   const { data: session } = useSession();
   const [inputText, setInputText] = useState("");
-  const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
   const [posts, setPosts] = useState<BulletinBoardData[]>([]);
 
   const getPosts = async () => {
@@ -42,7 +43,7 @@ export const Dashboard: NextPage = () => {
   };
 
   useEffect(() => {
-    getPosts();
+    void getPosts();
   }, []);
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,7 +60,7 @@ export const Dashboard: NextPage = () => {
       });
       const data: string = (await res.json()) as string; // Specify the type
       console.log("Bulletin Post created:", data);
-      getPosts();
+      void getPosts();
     } catch (error) {
       console.error("Request failed:", error);
     }
