@@ -2,7 +2,6 @@ import React, { useState, type Dispatch, type SetStateAction } from "react";
 //import
 
 interface MyData {
-  // Define the properties you expect in the JSON response
   key: string;
   value: number;
 }

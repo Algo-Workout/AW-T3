@@ -8,12 +8,16 @@ interface ApiResponseHeaders {
 }
 
 interface GitHubAuthProps {
-  session: Session | null;
+  session: Session;
 }
 
 interface AccessTokenResponse {
   access_token: string;
 }
+
+// interface Session extends NextAuthSession {
+//   access_token?: string;
+// }
 
 // custom hook
 const useGitHubAuthCheck = (accessToken: string) => {
@@ -37,16 +41,13 @@ const useGitHubAuthCheck = (accessToken: string) => {
   };
 
   useEffect(() => {
-  //   (async () => {
-  //     await checkScopes(accessToken);
-  //   });
-  // }, [accessToken]);
 
     const fetchScopes = async () => {
       const result = await checkScopes(accessToken);
       setHasUserEmailScope(result);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fetchScopes();
   }, [accessToken]);
 
@@ -56,12 +57,8 @@ const useGitHubAuthCheck = (accessToken: string) => {
 
 const GitHubAuthCheck: React.FC<GitHubAuthProps> = ({ session }) => {
   const { data: sessionData } = useSession();
-
-  if (!session) {
-    return <p className="text-white">Please log in with GitHub. TESTING</p>;
-  }
-
-  const hasUserEmailScope = useGitHubAuthCheck(sessionData?.access_token || "");
+  const accessToken = (sessionData || "") as string;
+  const hasUserEmailScope = useGitHubAuthCheck(accessToken);
 
   return (
     <div>

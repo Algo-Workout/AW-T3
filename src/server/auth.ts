@@ -25,11 +25,6 @@ declare module "next-auth" {
       // role: UserRole;
     } & DefaultSession["user"];
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 /**
@@ -40,10 +35,13 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session({ session, user }) {
+
       if (session.user) {
         session.user.id = user.id;
         // session.user.role = user.role; <-- put other properties on the session here
       }
+      console.log('Inside Auth.ts, Current session: ', session);
+      console.log('Also inside auth.ts, current user: ', user);
       return session;
     },
   },
