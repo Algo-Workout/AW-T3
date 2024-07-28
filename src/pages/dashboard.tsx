@@ -6,6 +6,7 @@ import TestFieldInput from "../components/TestFieldInput";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
+/* eslint-disable */
 interface MyData {
   // Define the properties you expect in the JSON response
   key: string;
