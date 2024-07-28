@@ -3,8 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { Counter } from "../components/Counter"
 
-export const Login: NextPage = () => {
-
+const Login: NextPage = () => {
   return (
     <>
       <Head>
@@ -41,3 +40,5 @@ export const Login: NextPage = () => {
     </>
   );
 };
+
+export default Login;

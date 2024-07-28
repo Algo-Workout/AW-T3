@@ -24,7 +24,7 @@ type BulletinBoardArray = {
   allRows: BulletinBoardData[];
 };
 
-export const Dashboard: NextPage = () => {
+const Dashboard: NextPage = () => {
   const { data: session } = useSession();
   const [inputText, setInputText] = useState("");
   const [userID, setuserID] = useState("clnz8jzpg00067z3yx42l0w60");
@@ -117,3 +117,5 @@ export const Dashboard: NextPage = () => {
     </>
   );
 };
+
+export default Dashboard;
